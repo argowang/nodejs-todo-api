@@ -11,7 +11,7 @@ var {
   Todo
 } = require('./models/todo.js');
 var {
-  Users
+  User
 } = require('./models/user.js');
 
 const {
@@ -115,6 +115,21 @@ app.patch('/todos/:id', (req, res) => {
     }
   }).catch((e) => {
     res.status(400).send();
+  })
+});
+
+// POST /Users
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  var user = new User({
+    email: body.email,
+    password: body.password
+  });
+
+  user.save().then((doc) => {
+    res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
   })
 });
 
